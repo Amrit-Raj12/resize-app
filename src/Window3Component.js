@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 
+// Window3Component displays user data in a table
 const Window3Component = ({
   data,
   loading,
@@ -8,9 +9,12 @@ const Window3Component = ({
   updatedCount,
   updateUser,
 }) => {
+  // State variable for toggling edit mode
   const [edit, setEdit] = useState(false)
+  // State variable for user data
   const [userData, setUserData] = useState({})
 
+  // Effect to update user data when data changes
   useEffect(() => {
     setUserData({
       name: data ? data[0].name : null,
@@ -20,28 +24,35 @@ const Window3Component = ({
     })
   }, [data])
 
+  // Function to handle edit button click
   const onClickEdit = () => {
     setEdit(true)
   }
 
+  // Function to handle update button click
   const onClickUpdate = () => {
     updateUser(data[0]._id, userData)
     setEdit(false)
   }
 
+  // Function to handle changes in form fields
   const handleChange = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value })
   }
 
+  // If loading, display loading message
   if (loading) return <div>Loading...</div>
+  // If error, display error message
   if (error) return <div>Error: {errorMessage.message}</div>
 
   return (
     <div className="p-4">
       <h2 className="text-lg font-bold mb-4">User Data Table</h2>
+      {/* If no data, display error message */}
       {!data ? (
         <div>{errorMessage?.message}</div>
       ) : (
+        // Display user data table
         <table className="border border-gray-300 rounded w-full">
           <thead>
             <tr className="bg-gray-200">
@@ -54,6 +65,7 @@ const Window3Component = ({
           </thead>
           <tbody>
             <tr>
+              {/* Display user data and input fields for editing */}
               <td className="py-2 px-4">
                 {edit ? (
                   <input
@@ -110,6 +122,7 @@ const Window3Component = ({
                   <p>{data[0].address}</p>
                 )}
               </td>
+              {/* Display edit and update buttons */}
               <td className="py-2 px-4">
                 {!edit ? (
                   <>
@@ -139,7 +152,6 @@ const Window3Component = ({
                 )}
               </td>
             </tr>
-            {/* Add more rows for additional users */}
           </tbody>
         </table>
       )}
